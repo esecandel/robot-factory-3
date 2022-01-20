@@ -1,12 +1,15 @@
 package com.rekover.robotfactory.infrastructure.entry
 
+import com.rekover.robotfactory.domain.CreateOrderUseCase
+import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 
 internal class RobotFactoryAPITest {
 
-    private val controller = RobotFactoryAPI()
+    private val createOrderUseCase: CreateOrderUseCase = mockk()
+    private val controller = RobotFactoryAPI(createOrderUseCase)
 
     @Test
     fun `create an order successfully`() {

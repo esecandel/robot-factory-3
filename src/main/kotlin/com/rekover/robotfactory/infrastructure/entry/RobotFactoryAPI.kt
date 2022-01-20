@@ -1,6 +1,7 @@
 package com.rekover.robotfactory.infrastructure.entry
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.rekover.robotfactory.domain.CreateOrderUseCase
 import java.net.URI
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class RobotFactoryAPI {
+class RobotFactoryAPI(private val createOrderUseCase: CreateOrderUseCase) {
 
     @PostMapping("/orders")
     fun createAnOrder(@RequestBody request: OrderRequest): ResponseEntity<OrderResponse?> =
