@@ -6,10 +6,8 @@ import java.math.BigDecimal
 
 class CreateOrderUseCase {
 
-    fun execute(order: Order): Result<CreatedOrder> =
-        runCatching {
-            createRobot(toDomain(order))
-        }
+    fun execute(order: Order): CreatedOrder =
+        createRobot(toDomain(order))
 
     private fun createRobot(order: ValidOrder): CreatedOrder {
         if (order.components == listOf(Component.A, Component.C, Component.I, Component.D)) {
@@ -19,14 +17,12 @@ class CreateOrderUseCase {
     }
 
     private fun toDomain(order: Order): ValidOrder =
-        ValidOrder(order.components.mapNotNull { toComponent(it) })
+        ValidOrder(order.components.map { toComponent(it) })
 
-    private fun toComponent(anyValue: String): Component? =
+    private fun toComponent(anyValue: String): Component =
         runCatching {
             Component.valueOf(anyValue)
-        }.onFailure {
-            throw Error.ComponentNotValid(anyValue)
-        }.getOrNull()
+        }.getOrElse { throw Error.ComponentNotValid(anyValue) }
 
 }
 
