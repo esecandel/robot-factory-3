@@ -1,6 +1,6 @@
 package com.rekover.robotfactory.domain.model
 
-enum class Component(private val part: String) {
+enum class Component(val part: String) {
 
     A("Humanoid Face"),
     B("LCD Face"),
