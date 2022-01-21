@@ -11,21 +11,24 @@ interface RobotActions {
 
 class TransactionalRobotActions(private val stockRepository: StockRepository) : RobotActions {
 
-    override fun createRobot(order: ValidOrder): NewOrder {
-        val reservedComponents: MutableList<Component> = mutableListOf()
-        var totalPrice: BigDecimal = BigDecimal.ZERO
-        order.components.forEach {
-            try {
-                totalPrice += stockRepository.getPart(it).value
-                reservedComponents.add(it)
-            } catch (exception: Exception) {
-                reservedComponents.forEach { reserved -> stockRepository.returnPart(reserved) }
-                throw exception
-            }
-        }
-        return NewOrder(
+    override fun createRobot(order: ValidOrder): NewOrder =
+        NewOrder(
             components = order.components,
-            price = Price(value = totalPrice)
+            price = totalPrice(order)
         )
+
+    private fun totalPrice(order: ValidOrder): Price {
+        val reservedComponents: MutableList<Component> = mutableListOf()
+        return Price(value = order.components.sumOf { reservePart(it, reservedComponents) })
     }
+
+    private fun reservePart(component: Component, reservedComponents: MutableList<Component>): BigDecimal {
+        return try {
+            stockRepository.getPart(component).value.also { reservedComponents.add(component) }
+        } catch (exception: Exception) {
+            reservedComponents.forEach { reserved -> stockRepository.returnPart(reserved) }
+            throw exception
+        }
+    }
+
 }
