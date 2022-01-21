@@ -1,6 +1,12 @@
 package com.rekover.robotfactory.domain
 
+import com.rekover.robotfactory.domain.model.Component.A
+import com.rekover.robotfactory.domain.model.Component.D
+import com.rekover.robotfactory.domain.model.Component.F
+import com.rekover.robotfactory.domain.model.Component.I
 import com.rekover.robotfactory.domain.model.Error
+import io.mockk.every
+import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.DisplayName
@@ -10,7 +16,8 @@ import org.junit.jupiter.api.Test
 @DisplayName("when try to create an order")
 internal class CreateOrderUseCaseTest {
 
-    private val useCase = CreateOrderUseCase()
+    private val stockRepository: StockRepository = mockk()
+    private val useCase = CreateOrderUseCase(stockRepository)
 
     @DisplayName("and there are no errors")
     @Nested
@@ -18,6 +25,10 @@ internal class CreateOrderUseCaseTest {
 
         @Test
         fun `then return created order`() {
+            every { stockRepository.getPart(I) } returns Price(value = 90.12.toBigDecimal())
+            every { stockRepository.getPart(A) } returns Price(value = 10.28.toBigDecimal())
+            every { stockRepository.getPart(D) } returns Price(value = 28.94.toBigDecimal())
+            every { stockRepository.getPart(F) } returns Price(value = 30.77.toBigDecimal())
             val order = Order(listOf("I", "A", "D", "F"))
 
             val result = useCase.execute(order)

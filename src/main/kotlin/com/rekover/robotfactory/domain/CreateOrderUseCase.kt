@@ -5,7 +5,7 @@ import com.rekover.robotfactory.domain.model.Error
 import com.rekover.robotfactory.domain.model.ValidOrder
 import java.math.BigDecimal
 
-class CreateOrderUseCase {
+class CreateOrderUseCase(private val stockRepository: StockRepository) {
 
     fun execute(order: Order): CreatedOrder {
         if (order.components == listOf("A", "C", "I", "D")) {
@@ -14,10 +14,13 @@ class CreateOrderUseCase {
         return createRobot(toDomain(order))
     }
 
-
-    private fun createRobot(order: ValidOrder): CreatedOrder {
-        return CreatedOrder(OrderId("1"), Price(160.11.toBigDecimal()))
-    }
+    private fun createRobot(order: ValidOrder): CreatedOrder =
+        CreatedOrder(
+            orderId = OrderId(id = "1"),
+            price = Price(
+                value = order.components.sumOf { stockRepository.getPart(it).value }
+            )
+        )
 
     private fun toDomain(order: Order): ValidOrder =
         ValidOrder(order.components.map { toComponent(it) })
@@ -34,4 +37,6 @@ data class Order(val components: List<String>)
 
 data class CreatedOrder(val orderId: OrderId, val price: Price)
 data class OrderId(val id: String)
-data class Price(val value: BigDecimal)
+data class Price(val value: BigDecimal) {
+    operator fun plus(other: Price): Price = Price(value = value.plus(other.value))
+}
