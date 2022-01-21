@@ -5,7 +5,6 @@ import com.rekover.robotfactory.domain.model.OrderId
 import com.rekover.robotfactory.domain.model.Price
 
 interface OrderRepository {
-
     fun save(newOrder: NewOrder): SavedOrder
     fun get(orderId: OrderId): SavedOrder
 }

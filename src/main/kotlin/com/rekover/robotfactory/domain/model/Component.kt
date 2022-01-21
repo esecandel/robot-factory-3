@@ -4,6 +4,7 @@ import com.rekover.robotfactory.domain.model.ComponentType.ARMS
 import com.rekover.robotfactory.domain.model.ComponentType.FACE
 import com.rekover.robotfactory.domain.model.ComponentType.MATERIAL
 import com.rekover.robotfactory.domain.model.ComponentType.MOBILITY
+import java.math.BigDecimal
 
 enum class Component(val part: String, private val type: ComponentType) {
 
@@ -28,3 +29,6 @@ enum class Component(val part: String, private val type: ComponentType) {
 enum class ComponentType {
     FACE, MATERIAL, ARMS, MOBILITY
 }
+
+data class OrderId(val id: String)
+data class Price(val value: BigDecimal)

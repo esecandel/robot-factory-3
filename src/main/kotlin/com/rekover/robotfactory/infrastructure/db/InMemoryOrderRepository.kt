@@ -26,7 +26,6 @@ class InMemoryOrderRepository(private val idGenerator: IdGenerator) : OrderRepos
         price = newOrder.price
     )
 
-
 }
 
 class IdGenerator {

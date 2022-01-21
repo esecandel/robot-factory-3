@@ -29,7 +29,8 @@ class CreateOrderUseCase(private val stockRepository: StockRepository,
         components = order.components
     )
 
-    private fun sumParts(order: ValidOrder): BigDecimal = order.components.sumOf { stockRepository.getPart(it).value }
+    private fun sumParts(order: ValidOrder): BigDecimal =
+        order.components.sumOf { stockRepository.getPart(it).value }
 
 }
 
