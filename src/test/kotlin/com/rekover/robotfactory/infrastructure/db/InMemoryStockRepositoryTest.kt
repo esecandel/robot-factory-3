@@ -25,7 +25,6 @@ internal class InMemoryStockRepositoryTest {
 
     private val stock = InMemoryStockRepository()
 
-
     @ParameterizedTest(name = "Component {0} cost {1} and remains {2} unit")
     @MethodSource("getData")
     fun `when we have stock for a component, decrease its stock and return its price`(

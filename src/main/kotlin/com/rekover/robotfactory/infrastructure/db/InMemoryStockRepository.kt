@@ -31,18 +31,19 @@ class InMemoryStockRepository : StockRepository {
     )
 
     override fun getPart(component: Component): Price =
-        stock[component]?.price.also { decreaseStock(component) }
+        stock[component]?.price
+            .also { decreaseStock(component) }
             ?: throw Error.NoStockError(component)
 
     private fun decreaseStock(component: Component) {
-        if (stock[component]?.stock?.available == 0) {
+        if (stock[component]?.available == 0) {
             throw Error.NoStockError(component)
         }
-        stock[component]?.stock?.decrease()
+        stock[component]?.decrease()
     }
 
     override fun getAvailableUnitsOf(component: Component): Int =
-        stock[component]?.stock?.available ?: throw Error.NoStockError(component)
+        stock[component]?.available ?: throw Error.NoStockError(component)
 
 }
 
@@ -52,4 +53,12 @@ data class Stock(var available: Int) {
     }
 }
 
-data class ComponentStock(val price: Price, val stock: Stock)
+data class ComponentStock(val price: Price, val stock: Stock) {
+    val available: Int
+        get() = stock.available
+
+    fun decrease() {
+        stock.decrease()
+    }
+
+}
