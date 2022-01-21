@@ -5,7 +5,7 @@ import com.rekover.robotfactory.domain.model.ComponentType.FACE
 import com.rekover.robotfactory.domain.model.ComponentType.MATERIAL
 import com.rekover.robotfactory.domain.model.ComponentType.MOBILITY
 
-enum class Component(val part: String, val type: ComponentType) {
+enum class Component(val part: String, private val type: ComponentType) {
 
     A("Humanoid Face", FACE),
     B("LCD Face", FACE),
