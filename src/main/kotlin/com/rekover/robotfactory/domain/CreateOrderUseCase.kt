@@ -17,8 +17,7 @@ class CreateOrderUseCase(private val stockRepository: StockRepository) {
             )
         )
 
-    private fun toDomain(order: Order): ValidOrder =
-        ValidOrder(order.components.map { toComponent(it) })
+    private fun toDomain(order: Order): ValidOrder = ValidOrder(order.components.map { toComponent(it) })
 
     private fun toComponent(anyValue: String): Component =
         runCatching {
@@ -28,10 +27,6 @@ class CreateOrderUseCase(private val stockRepository: StockRepository) {
 }
 
 data class Order(val components: List<String>)
-
-
 data class CreatedOrder(val orderId: OrderId, val price: Price)
 data class OrderId(val id: String)
-data class Price(val value: BigDecimal) {
-    operator fun plus(other: Price): Price = Price(value = value.plus(other.value))
-}
+data class Price(val value: BigDecimal)

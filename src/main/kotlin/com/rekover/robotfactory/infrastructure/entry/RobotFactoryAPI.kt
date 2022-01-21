@@ -18,7 +18,7 @@ class RobotFactoryAPI(private val createOrderUseCase: CreateOrderUseCase) {
     @PostMapping("/orders")
     fun createAnOrder(@RequestBody request: OrderRequest): ResponseEntity<OrderResponse?> =
         runCatching {
-            createOrderUseCase.execute(toOrder(request))
+            createOrderUseCase.execute(request.toOrder())
         }.fold(
             onSuccess = {
                 ResponseEntity
@@ -32,8 +32,6 @@ class RobotFactoryAPI(private val createOrderUseCase: CreateOrderUseCase) {
         orderId = createdOrder.orderId.id,
         total = createdOrder.price.value.toFloat()
     )
-
-    private fun toOrder(request: OrderRequest) = Order(components = request.components)
 
     private fun handleThrowable(): (Throwable) -> ResponseEntity<OrderResponse?> = { throwable ->
         when (throwable.parseThrowable()) {
@@ -51,7 +49,9 @@ internal fun Throwable.parseThrowable(): Exception =
         else -> throw this
     }
 
-data class OrderRequest(val components: List<String>)
+data class OrderRequest(val components: List<String>) {
+    fun toOrder() = Order(components = components)
+}
 
 data class OrderResponse(
     @JsonProperty("order_id")

@@ -4,6 +4,8 @@ import com.rekover.robotfactory.domain.model.Component.A
 import com.rekover.robotfactory.domain.model.Component.D
 import com.rekover.robotfactory.domain.model.Component.F
 import com.rekover.robotfactory.domain.model.Component.I
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -43,7 +45,6 @@ internal class ValidOrderTest {
             )
         }
 
-
         @Test
         fun `as wrong combination of components, then throw a wrong combination of components error`() {
             assertThrows(
@@ -51,6 +52,18 @@ internal class ValidOrderTest {
                 { ValidOrder(components = listOf(A, D, F, F)) },
                 "The number of components must be 4, but it's 3"
             )
+        }
+    }
+
+    @DisplayName("without validation error ")
+    @Nested
+    inner class NoError {
+        @Test
+        fun `then create a valid order and return it`() {
+            val result = ValidOrder(listOf(I, A, D, F))
+
+            assertNotNull(result)
+            assertThat(result).isEqualTo(ValidOrder(listOf(I, A, D, F)))
         }
     }
 }
