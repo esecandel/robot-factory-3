@@ -4,9 +4,7 @@ import com.rekover.robotfactory.domain.model.Component.A
 import com.rekover.robotfactory.domain.model.Component.D
 import com.rekover.robotfactory.domain.model.Component.F
 import com.rekover.robotfactory.domain.model.Component.I
-import com.rekover.robotfactory.domain.model.CreatedOrder
 import com.rekover.robotfactory.domain.model.Error
-import com.rekover.robotfactory.domain.model.OrderId
 import com.rekover.robotfactory.domain.model.Price
 import com.rekover.robotfactory.domain.model.ValidOrder
 import io.mockk.Runs
@@ -37,7 +35,7 @@ internal class TransactionalRobotActionsTest {
             val order = ValidOrder(listOf(I, A, D, F))
 
             val result = actions.createRobot(order)
-            val expected = CreatedOrder(orderId = OrderId("1"), price = Price(160.11.toBigDecimal()))
+            val expected = NewOrder(components = listOf(I, A, D, F), price = Price(160.11.toBigDecimal()))
 
             Assertions.assertThat(result).isEqualTo(expected)
         }

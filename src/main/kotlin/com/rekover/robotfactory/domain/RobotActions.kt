@@ -1,19 +1,17 @@
 package com.rekover.robotfactory.domain
 
 import com.rekover.robotfactory.domain.model.Component
-import com.rekover.robotfactory.domain.model.CreatedOrder
-import com.rekover.robotfactory.domain.model.OrderId
 import com.rekover.robotfactory.domain.model.Price
 import com.rekover.robotfactory.domain.model.ValidOrder
 import java.math.BigDecimal
 
 interface RobotActions {
-    fun createRobot(order: ValidOrder): CreatedOrder
+    fun createRobot(order: ValidOrder): NewOrder
 }
 
 class TransactionalRobotActions(private val stockRepository: StockRepository) : RobotActions {
 
-    override fun createRobot(order: ValidOrder): CreatedOrder {
+    override fun createRobot(order: ValidOrder): NewOrder {
         val reservedComponents: MutableList<Component> = mutableListOf()
         var totalPrice: BigDecimal = BigDecimal.ZERO
         order.components.forEach {
@@ -25,10 +23,9 @@ class TransactionalRobotActions(private val stockRepository: StockRepository) : 
                 throw exception
             }
         }
-        return CreatedOrder(
-            orderId = OrderId(id = "1"),
+        return NewOrder(
+            components = order.components,
             price = Price(value = totalPrice)
         )
-
     }
 }
