@@ -7,12 +7,7 @@ import java.math.BigDecimal
 
 class CreateOrderUseCase(private val stockRepository: StockRepository) {
 
-    fun execute(order: Order): CreatedOrder {
-        if (order.components == listOf("A", "C", "I", "D")) {
-            throw Error.NoStockError(Component.A)
-        }
-        return createRobot(toDomain(order))
-    }
+    fun execute(order: Order): CreatedOrder = createRobot(toDomain(order))
 
     private fun createRobot(order: ValidOrder): CreatedOrder =
         CreatedOrder(

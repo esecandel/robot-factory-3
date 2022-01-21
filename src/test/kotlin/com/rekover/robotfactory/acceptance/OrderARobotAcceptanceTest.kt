@@ -48,7 +48,7 @@ class OrderARobotAcceptanceTest {
         postOrder(
             """
                     {
-                        "components": ["A", "C", "I", "D"]
+                        "components": ["C", "I", "D", "F"]
                     }
                 """
         ).then()

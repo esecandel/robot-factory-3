@@ -1,6 +1,7 @@
 package com.rekover.robotfactory.domain
 
 import com.rekover.robotfactory.domain.model.Component.A
+import com.rekover.robotfactory.domain.model.Component.C
 import com.rekover.robotfactory.domain.model.Component.D
 import com.rekover.robotfactory.domain.model.Component.F
 import com.rekover.robotfactory.domain.model.Component.I
@@ -51,7 +52,9 @@ internal class CreateOrderUseCaseTest {
 
         @Test
         fun `no stock of a component, return a no stock component failure `() {
-            val order = Order(listOf("A", "C", "I", "D"))
+            every { stockRepository.getPart(C) } throws Error.NoStockError(C)
+
+            val order = Order(listOf("C", "I", "D", "F"))
 
             assertThrows(Error.NoStockError::class.java, { useCase.execute(order) }, "There are no stock of 'Humanoid Face' component")
 
