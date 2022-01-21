@@ -19,7 +19,7 @@ internal class GetOrderUseCaseTest {
     fun `when try to get an order and it exists, then return it`() {
         every { orderRepository.get(ANY_ORDER_ID) } returns ANY_SAVED_ORDER
 
-        val result = useCase.getOrder(ANY_ORDER_ID)
+        val result = useCase.execute(ANY_ORDER_ID)
 
         Assertions.assertThat(result).isEqualTo(
             CreatedOrder(
@@ -34,7 +34,7 @@ internal class GetOrderUseCaseTest {
 
         org.junit.jupiter.api.Assertions.assertThrows(
             Error.OrderNotFound::class.java,
-            { useCase.getOrder(ANY_ORDER_ID) },
+            { useCase.execute(ANY_ORDER_ID) },
             "The order '${ANY_ORDER_ID.id}' doesn't exist.")
     }
 

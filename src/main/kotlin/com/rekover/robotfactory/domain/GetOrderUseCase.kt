@@ -5,7 +5,7 @@ import com.rekover.robotfactory.domain.model.OrderId
 
 class GetOrderUseCase(private val orderRepository: OrderRepository) {
 
-    fun getOrder(orderId: OrderId): CreatedOrder {
+    fun execute(orderId: OrderId): CreatedOrder {
         val savedOrder: SavedOrder = orderRepository.get(orderId)
         return toCreatedOrder(savedOrder)
     }
