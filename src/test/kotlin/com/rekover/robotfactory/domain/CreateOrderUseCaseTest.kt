@@ -19,9 +19,9 @@ import org.junit.jupiter.api.Test
 
 @DisplayName("when try to create an order")
 internal class CreateOrderUseCaseTest {
-
+    private val orderRepository: OrderRepository = mockk()
     private val stockRepository: StockRepository = mockk()
-    private val useCase = CreateOrderUseCase(stockRepository)
+    private val useCase = CreateOrderUseCase(stockRepository, orderRepository)
 
     @DisplayName("and there are no errors")
     @Nested
@@ -33,6 +33,19 @@ internal class CreateOrderUseCaseTest {
             every { stockRepository.getPart(A) } returns Price(value = 10.28.toBigDecimal())
             every { stockRepository.getPart(D) } returns Price(value = 28.94.toBigDecimal())
             every { stockRepository.getPart(F) } returns Price(value = 30.77.toBigDecimal())
+            every {
+                orderRepository.save(
+                    NewOrder(
+                        price = Price(160.11.toBigDecimal()),
+                        components = listOf(I, A, D, F)
+                    )
+                )
+            } returns SavedOrder(
+                price = Price(160.11.toBigDecimal()),
+                components = listOf(I, A, D, F),
+                orderId = OrderId("1")
+            )
+
             val order = Order(listOf("I", "A", "D", "F"))
 
             val result = useCase.execute(order)
