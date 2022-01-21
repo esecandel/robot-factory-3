@@ -55,6 +55,48 @@ internal class RobotFactoryAPITest {
         }
 
         @Test
+        fun `but the number of component is not valid, return Bad Request status code`() {
+            val request = OrderRequest(listOf("A", "C"))
+
+            every {
+                createOrderUseCase.execute(Order(listOf("A", "C")))
+            } throws Error.NumberOfComponentsNotValid(2)
+
+            val result = controller.createAnOrder(request)
+
+            assertThat(result.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
+            assertThat(result.body).isNull()
+        }
+
+        @Test
+        fun `but an empty list of components, return Bad Request status code`() {
+            val request = OrderRequest(emptyList())
+
+            every {
+                createOrderUseCase.execute(Order(emptyList()))
+            } throws Error.EmptyListOfComponents
+
+            val result = controller.createAnOrder(request)
+
+            assertThat(result.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
+            assertThat(result.body).isNull()
+        }
+
+        @Test
+        fun `but an wrong combination of components, return Bad Request status code`() {
+            val request = OrderRequest(listOf("A", "A", "A", "A"))
+
+            every {
+                createOrderUseCase.execute(Order(listOf("A", "A", "A", "A")))
+            } throws Error.WrongCombinationOfComponents
+
+            val result = controller.createAnOrder(request)
+
+            assertThat(result.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
+            assertThat(result.body).isNull()
+        }
+
+        @Test
         fun `but the order has no stock, return Unprocessable entity status code`() {
             val request = OrderRequest(listOf("A", "C", "I", "D"))
 
