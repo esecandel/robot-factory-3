@@ -13,15 +13,16 @@ interface RobotActions {
 
 class TransactionalRobotActions(private val stockRepository: StockRepository) : RobotActions {
 
-
     override fun createRobot(order: ValidOrder): CreatedOrder {
-        var reservedComponents: MutableList<Component> = mutableListOf()
+        val reservedComponents: MutableList<Component> = mutableListOf()
         var totalPrice: BigDecimal = BigDecimal.ZERO
         order.components.forEach {
             try {
                 totalPrice += stockRepository.getPart(it).value
-            } catch (ex: Exception) {
-
+                reservedComponents.add(it)
+            } catch (exception: Exception) {
+                reservedComponents.forEach { reserved -> stockRepository.returnPart(reserved) }
+                throw exception
             }
         }
         return CreatedOrder(
