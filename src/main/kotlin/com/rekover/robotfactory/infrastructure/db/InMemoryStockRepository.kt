@@ -35,6 +35,10 @@ class InMemoryStockRepository : StockRepository {
             .also { decreaseStock(component) }
             ?: throw Error.NoStockError(component)
 
+    override fun returnPart(component: Component) {
+        stock[component]?.increase()
+    }
+
     private fun decreaseStock(component: Component) {
         if (stock[component]?.available == 0) {
             throw Error.NoStockError(component)
@@ -51,6 +55,10 @@ data class Stock(var available: Int) {
     fun decrease() {
         available -= 1
     }
+
+    fun increase() {
+        available += 1
+    }
 }
 
 data class ComponentStock(val price: Price, val stock: Stock) {
@@ -59,6 +67,10 @@ data class ComponentStock(val price: Price, val stock: Stock) {
 
     fun decrease() {
         stock.decrease()
+    }
+
+    fun increase() {
+        stock.increase()
     }
 
 }

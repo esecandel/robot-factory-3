@@ -40,11 +40,24 @@ internal class InMemoryStockRepositoryTest {
 
     @Test
     fun `when we don't have stock for a component, return a no stock error`() {
-
         assertThrows(
             Error.NoStockError::class.java,
             { stock.getPart(C) },
             "There are no stock of 'Steampunk Face' component")
+    }
+
+    @ParameterizedTest(name = "After returns a unit of Component {0} the new available units are {2}")
+    @MethodSource("getData")
+    fun `when return a unit of a component, increase the available units in one`(
+        component: Component,
+        price: BigDecimal,
+        remaining: Int) {
+
+        assertThat(stock.getAvailableUnitsOf(component)).isEqualTo(remaining + 1)
+
+        stock.returnPart(component)
+
+        assertThat(stock.getAvailableUnitsOf(component)).isEqualTo(remaining + 2)
     }
 
     companion object {
