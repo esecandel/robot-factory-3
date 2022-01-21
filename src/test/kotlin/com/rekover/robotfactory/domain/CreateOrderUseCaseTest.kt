@@ -5,7 +5,10 @@ import com.rekover.robotfactory.domain.model.Component.C
 import com.rekover.robotfactory.domain.model.Component.D
 import com.rekover.robotfactory.domain.model.Component.F
 import com.rekover.robotfactory.domain.model.Component.I
+import com.rekover.robotfactory.domain.model.CreatedOrder
 import com.rekover.robotfactory.domain.model.Error
+import com.rekover.robotfactory.domain.model.OrderId
+import com.rekover.robotfactory.domain.model.Price
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat

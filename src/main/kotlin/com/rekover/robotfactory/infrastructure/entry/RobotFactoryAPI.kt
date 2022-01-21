@@ -2,8 +2,9 @@ package com.rekover.robotfactory.infrastructure.entry
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.rekover.robotfactory.domain.CreateOrderUseCase
-import com.rekover.robotfactory.domain.CreatedOrder
+
 import com.rekover.robotfactory.domain.Order
+import com.rekover.robotfactory.domain.model.CreatedOrder
 import com.rekover.robotfactory.domain.model.Error
 import java.net.URI
 import org.springframework.http.HttpStatus

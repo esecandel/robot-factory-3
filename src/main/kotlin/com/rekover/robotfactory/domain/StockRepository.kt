@@ -1,6 +1,7 @@
 package com.rekover.robotfactory.domain
 
 import com.rekover.robotfactory.domain.model.Component
+import com.rekover.robotfactory.domain.model.Price
 
 interface StockRepository {
 

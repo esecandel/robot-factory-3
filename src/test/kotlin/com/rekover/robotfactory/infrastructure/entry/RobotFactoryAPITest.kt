@@ -1,12 +1,12 @@
 package com.rekover.robotfactory.infrastructure.entry
 
 import com.rekover.robotfactory.domain.CreateOrderUseCase
-import com.rekover.robotfactory.domain.CreatedOrder
 import com.rekover.robotfactory.domain.Order
-import com.rekover.robotfactory.domain.OrderId
-import com.rekover.robotfactory.domain.Price
 import com.rekover.robotfactory.domain.model.Component
+import com.rekover.robotfactory.domain.model.CreatedOrder
 import com.rekover.robotfactory.domain.model.Error
+import com.rekover.robotfactory.domain.model.OrderId
+import com.rekover.robotfactory.domain.model.Price
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
@@ -25,12 +25,7 @@ internal class RobotFactoryAPITest {
 
         every {
             createOrderUseCase.execute(Order(ANY_VALID_COMPONENTS))
-        } returns
-            CreatedOrder(
-                orderId = ANY_ORDER_ID,
-                price = ANY_PRICE
-
-            )
+        } returns CreatedOrder(orderId = ANY_ORDER_ID, price = ANY_PRICE)
 
         val result = controller.createAnOrder(request)
 

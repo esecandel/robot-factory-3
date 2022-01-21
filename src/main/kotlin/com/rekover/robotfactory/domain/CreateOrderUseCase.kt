@@ -1,9 +1,11 @@
 package com.rekover.robotfactory.domain
 
 import com.rekover.robotfactory.domain.model.Component
+import com.rekover.robotfactory.domain.model.CreatedOrder
 import com.rekover.robotfactory.domain.model.Error
+import com.rekover.robotfactory.domain.model.OrderId
+import com.rekover.robotfactory.domain.model.Price
 import com.rekover.robotfactory.domain.model.ValidOrder
-import java.math.BigDecimal
 
 class CreateOrderUseCase(private val stockRepository: StockRepository) {
 
@@ -27,6 +29,3 @@ class CreateOrderUseCase(private val stockRepository: StockRepository) {
 }
 
 data class Order(val components: List<String>)
-data class CreatedOrder(val orderId: OrderId, val price: Price)
-data class OrderId(val id: String)
-data class Price(val value: BigDecimal)

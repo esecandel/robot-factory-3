@@ -1,6 +1,5 @@
 package com.rekover.robotfactory.infrastructure.db
 
-import com.rekover.robotfactory.domain.Price
 import com.rekover.robotfactory.domain.StockRepository
 import com.rekover.robotfactory.domain.model.Component
 import com.rekover.robotfactory.domain.model.Component.A
@@ -14,6 +13,7 @@ import com.rekover.robotfactory.domain.model.Component.H
 import com.rekover.robotfactory.domain.model.Component.I
 import com.rekover.robotfactory.domain.model.Component.J
 import com.rekover.robotfactory.domain.model.Error
+import com.rekover.robotfactory.domain.model.Price
 
 class InMemoryStockRepository : StockRepository {
 
