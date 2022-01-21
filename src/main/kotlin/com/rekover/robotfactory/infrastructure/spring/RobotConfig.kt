@@ -1,6 +1,7 @@
 package com.rekover.robotfactory.infrastructure.spring
 
 import com.rekover.robotfactory.domain.CreateOrderUseCase
+import com.rekover.robotfactory.domain.GetOrderUseCase
 import com.rekover.robotfactory.domain.OrderRepository
 import com.rekover.robotfactory.domain.StockRepository
 import com.rekover.robotfactory.infrastructure.db.IdGenerator
@@ -15,6 +16,9 @@ class RobotConfig {
     @Bean
     fun createOrderUseCase(stockRepository: StockRepository,
                            orderRepository: OrderRepository) = CreateOrderUseCase(stockRepository, orderRepository)
+
+    @Bean
+    fun getOrderUseCase(orderRepository: OrderRepository) = GetOrderUseCase(orderRepository)
 
     @Bean
     fun stockRepository(): StockRepository = InMemoryStockRepository()
