@@ -36,7 +36,7 @@ class RobotFactoryAPI(private val createOrderUseCase: CreateOrderUseCase) {
     private fun toOrder(request: OrderRequest) = Order(components = request.components)
 
     private fun handleThrowable(): (Throwable) -> ResponseEntity<OrderResponse?> = { throwable ->
-        when (val exception = throwable.parseThrowable()) {
+        when (throwable.parseThrowable()) {
             is Error.ComponentNotValid -> ResponseEntity.badRequest().build()
             is Error.NoStockError -> ResponseEntity.unprocessableEntity().build()
             else -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
